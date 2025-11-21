@@ -43,22 +43,20 @@ const FacebookSDKLoader = () => {
 };
 
 export default function MetaPage() {
-  const onLoginClick = () => {
-    window.FB.login((response) => {
-      if (response.status === "connected") {
-        console.log("Logged in:", response);
-      } else {
-        console.log("Login failed:", response);
-      }
-    });
-  };
-
   return (
     <div>
       <FacebookSDKLoader />
-      <button type="button" onClick={onLoginClick}>
-        Login with Facebook
-      </button>
+      <div
+        className="fb-login-button"
+        data-button-type="embedded_signup"
+        data-use-continue-as="true"
+        data-scope="email,public_profile,whatsapp_business_management" // Use a permissão de negócios aqui
+        data-size="large"
+        data-config-id="785994377776007"
+        data-onlogin="handleLoginResponse" // Opcional: Para capturar o resultado
+      >
+        Continuar com Facebook
+      </div>
     </div>
   );
 }
