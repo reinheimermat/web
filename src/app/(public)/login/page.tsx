@@ -1,35 +1,36 @@
-"use client";
+'use client'
 
-import { useTRPC } from "@/utils/trpc";
-import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
+import { useQuery } from '@tanstack/react-query'
+import Link from 'next/link'
+import { useTRPC } from '@/utils/trpc'
 
 export default function Login() {
-  const trpc = useTRPC();
+  const trpc = useTRPC()
 
   const {
     data: loginUrl,
     isLoading,
     isError,
-    error,
-  } = useQuery(trpc.auth.getGoogleUrl.queryOptions());
+    error
+  } = useQuery(trpc.auth.getGoogleUrl.queryOptions())
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   if (isError) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error.message}</div>
   }
 
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="flex h-screen items-center justify-center">
       <Link
-        href={loginUrl || "/error"}
-        className="flex w-fit items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2"
+        href={loginUrl || '/error'}
+        className="flex w-fit items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-4 py-3 font-medium text-gray-700 text-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2"
       >
         {/* SVG do Google mantido */}
         <svg className="h-5 w-5" viewBox="0 0 24 24">
+          <title>Google Logo</title>
           <path
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
             fill="#4285F4"
@@ -50,5 +51,5 @@ export default function Login() {
         <span>Continuar com Google</span>
       </Link>
     </div>
-  );
+  )
 }

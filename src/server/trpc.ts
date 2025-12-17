@@ -1,14 +1,14 @@
-import { initTRPC, TRPCError } from "@trpc/server";
-import { Context } from "./context";
+import { initTRPC, TRPCError } from '@trpc/server'
+import { Context } from './context'
 
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create()
 
-export const router = t.router;
+export const router = t.router
 
 /**
  * Unprotected procedure
  */
-export const publicProcedure = t.procedure;
+export const publicProcedure = t.procedure
 
 /**
  * Protected procedure
@@ -16,14 +16,14 @@ export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(function isAuthed(opts) {
   if (!opts.ctx.user) {
     throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "Você precisa estar logado para acessar isso.",
-    });
+      code: 'UNAUTHORIZED',
+      message: 'Você precisa estar logado para acessar isso.'
+    })
   }
 
   return opts.next({
     ctx: {
-      user: opts.ctx.user,
-    },
-  });
-});
+      user: opts.ctx.user
+    }
+  })
+})

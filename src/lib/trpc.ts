@@ -1,3 +1,3 @@
-import { useTRPC } from "@/utils/trpc";
+import { useTRPC } from '@/utils/trpc'
 
-export const trpc = useTRPC();
+export const trpc = useTRPC()
