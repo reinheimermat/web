@@ -1,10 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { NextResponse } from 'next/server'
+import { env } from '@/env'
 import { prisma } from '@/lib/prisma'
-
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!
-const JWT_SECRET = process.env.JWT_SECRET! // Crie isso no .env
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
@@ -18,11 +15,11 @@ export async function GET(req: Request) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        client_id: GOOGLE_CLIENT_ID,
-        client_secret: GOOGLE_CLIENT_SECRET,
+        client_id: env.GOOGLE_CLIENT_ID,
+        client_secret: env.GOOGLE_CLIENT_SECRET,
         code,
         grant_type: 'authorization_code',
-        redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback/google`
+        redirect_uri: `${env.NEXT_PUBLIC_APP_URL}/api/auth/callback/google`
       })
     })
 
@@ -36,7 +33,6 @@ export async function GET(req: Request) {
 
     if (!googleUser.email) throw new Error('Email não fornecido pelo Google')
 
-    // 3. Upsert no Prisma (Cria ou Atualiza)
     const user = await prisma.user.upsert({
       where: { email: googleUser.email },
       update: {
@@ -54,8 +50,15 @@ export async function GET(req: Request) {
       }
     })
 
-    // 4. Gerar o JWT da SUA aplicação
-    const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, {
+    await prisma.barbershop.create({
+      data: {
+        name: 'Barbearia Padrão',
+        ownerId: user.id,
+        address: 'Rua Padrão, 123'
+      }
+    })
+
+    const token = jwt.sign({ userId: user.id, email: user.email }, env.JWT_SECRET, {
       expiresIn: '7d'
     })
 

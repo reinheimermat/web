@@ -20,4 +20,87 @@ model User {
   avatarUrl    String?
   googleId     String? @unique
   refreshToken String?
+
+  barbershop Barbershop?
+
+  barbers Barber[]
+}
+
+model Barbershop {
+  id      String @id @default(cuid())
+  name    String
+  address String
+
+  wabaId        String?
+  phoneId       String?
+  whatsappToken String?
+
+  ownerId String @unique
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  barbers   Barber[]
+  customers Customer[]
+  services  Service[]
+}
+
+model Barber {
+  id               String  @id @default(cuid())
+  nick             String
+  active           Boolean @default(true)
+  googleCalendarId String?
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  barbershop   Barbershop? @relation(fields: [barbershopId], references: [id])
+  barbershopId String?
+
+  appointments Appointment[]
+}
+
+model Appointment {
+  id     String   @id @default(cuid())
+  start  DateTime
+  end    DateTime
+  status Status
+
+  barberId String?
+  barber   Barber? @relation(fields: [barberId], references: [id])
+
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId String?
+  service    Service?  @relation(fields: [serviceId], references: [id])
+  serviceId  String?
+}
+
+model Service {
+  id    String  @id @default(cuid())
+  name  String
+  price Decimal @db.Decimal(10, 2)
+
+  barbershop   Barbershop? @relation(fields: [barbershopId], references: [id])
+  barbershopId String?
+
+  appointments Appointment[]
+}
+
+model Customer {
+  id    String @id @default(cuid())
+  name  String
+  phone String
+
+  barbershop   Barbershop? @relation(fields: [barbershopId], references: [id])
+  barbershopId String?
+
+  appointments Appointment[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([barbershopId, phone])
+}
+
+enum Status {
+  PENDING
+  CONFIRMED
+  CANCELED
 }

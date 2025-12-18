@@ -1,8 +1,8 @@
-import { type FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch'
+import type { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch'
 import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
-
-const JWT_SECRET = process.env.JWT_SECRET!
+import { env } from '@/env'
+import { prisma } from '@/lib/prisma'
 
 export async function createContext(opts: FetchCreateContextFnOptions) {
   const cookieStore = await cookies()
@@ -13,7 +13,7 @@ export async function createContext(opts: FetchCreateContextFnOptions) {
   if (token) {
     try {
       // Verifica o JWT
-      const decoded = jwt.verify(token, JWT_SECRET) as {
+      const decoded = jwt.verify(token, env.JWT_SECRET) as {
         userId: string
         email: string
       }
@@ -25,7 +25,8 @@ export async function createContext(opts: FetchCreateContextFnOptions) {
   }
 
   return {
-    user, // Se null, não está logado. Se tiver objeto, está logado.
+    user,
+    prisma,
     headers: opts?.req.headers
   }
 }

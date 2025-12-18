@@ -131,7 +131,7 @@ export default function EmbeddedSignup() {
         type="button"
         onClick={launchWhatsAppSignup}
         disabled={!sdkLoaded}
-        className="rounded-full bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition-colors"
+        className="rounded-full bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
       >
         {sdkLoaded ? 'Login with Facebook' : 'Loading SDK...'}
       </button>

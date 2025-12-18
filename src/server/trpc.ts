@@ -1,5 +1,5 @@
 import { initTRPC, TRPCError } from '@trpc/server'
-import { Context } from './context'
+import type { Context } from './context'
 
 const t = initTRPC.context<Context>().create()
 
@@ -23,7 +23,8 @@ export const protectedProcedure = t.procedure.use(function isAuthed(opts) {
 
   return opts.next({
     ctx: {
-      user: opts.ctx.user
+      user: opts.ctx.user,
+      prisma: opts.ctx.prisma
     }
   })
 })
