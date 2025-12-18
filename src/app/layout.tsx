@@ -1,7 +1,9 @@
+/** biome-ignore-all lint/security/noDangerouslySetInnerHtml: <explanation> */
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { App } from '@/components/providers'
+import Script from 'next/script'
+import { env } from '@/env'
 
 const inter = Inter({
   variable: '--font-inter',
@@ -55,9 +57,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className} antialiased`}>
-        <App>{children}</App>
-      </body>
+      <Script
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.fbAsyncInit = function() {
+              FB.init({
+                appId: '${env.NEXT_PUBLIC_FACEBOOK_APP_ID}',
+                cookie: true,
+                xfbml: false,
+                version: 'v19.0'
+              });
+            };
+
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/pt_BR/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));
+            `
+        }}
+      />
+      <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   )
 }

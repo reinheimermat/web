@@ -1,3 +1,5 @@
+import z from 'zod'
+
 export type WhatsAppMessagePayload = {
   messaging_product: 'whatsapp'
   recipient_type: 'individual'
@@ -15,4 +17,15 @@ export type WhatsAppMessagePayload = {
       sections?: { title: string; rows: { id: string; title: string; description?: string }[] }[]
     }
   }
+}
+
+export const embeddedSignupSchema = z.object({
+  code: z.string().min(10),
+  waba_id: z.string().min(5),
+  phone_number_id: z.string().min(5),
+  barbeariaId: z.string()
+})
+
+export interface TokenResponse {
+  access_token: string
 }

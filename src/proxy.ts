@@ -1,4 +1,4 @@
-import { MiddlewareConfig, NextRequest, NextResponse } from 'next/server'
+import { type MiddlewareConfig, type NextRequest, NextResponse } from 'next/server'
 
 const publicRoutes = [
   {
@@ -16,7 +16,7 @@ const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = '/login'
 export function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname
   const publicRoute = publicRoutes.find((route) => route.path === path)
-  const token = request.cookies.get('auth_token')?.value
+  const token = request.cookies.get('barberfy-auth_token')?.value
 
   if (!token && publicRoute) {
     return NextResponse.next()

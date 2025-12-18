@@ -1,31 +1,12 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useTRPC } from '@/utils/trpc'
 
 export default function Login() {
-  const trpc = useTRPC()
-
-  const {
-    data: loginUrl,
-    isLoading,
-    isError,
-    error
-  } = useQuery(trpc.auth.getGoogleUrl.queryOptions())
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (isError) {
-    return <div>Error: {error.message}</div>
-  }
-
   return (
     <div className="flex h-screen items-center justify-center">
       <Link
-        href={loginUrl || '/error'}
+        href="/api/auth/google"
         className="flex w-fit items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-4 py-3 font-medium text-gray-700 text-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2"
       >
         {/* SVG do Google mantido */}
