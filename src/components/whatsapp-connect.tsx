@@ -2,25 +2,31 @@
 
 import { useEffect, useState } from 'react'
 import { env } from '@/env'
-import { trpc } from '@/lib/trpc' // Ajuste seu import
+import { useTRPC } from '@/utils/trpc'
 
 // Tipagem global para o SDK do Facebook
 declare global {
   interface Window {
-    FB: any
+    FB: {
+      init: (params: {
+        appId: string
+        autoLogAppEvents: boolean
+        xfbml: boolean
+        version: string
+      }) => void
+      login: (callback: (response: any) => void, options: any) => void
+    }
     fbAsyncInit: () => void
   }
 }
 
 export function WhatsappConnect() {
   const [loading, setLoading] = useState(false)
-  const utils = trpc.useUtils()
+  const trpc = useTRPC()
 
-  // Mutation que vamos criar no passo 4
-  const connectMutation = trpc.barbershop.saveWhatsappCredentials.useMutation({
+  const connectMutation = trpc.barbershop.saveWhatsappCredentials.mutationOptions({
     onSuccess: () => {
       alert('WhatsApp Conectado com Sucesso! 🎉')
-      utils.barbershop.getMyShop.invalidate()
     },
     onError: (err) => {
       alert('Erro ao salvar: ' + err.message)
