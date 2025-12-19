@@ -13,7 +13,7 @@ const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 const TOKEN_URL = 'https://oauth2.googleapis.com/token'
 const USERINFO_URL = 'https://www.googleapis.com/oauth2/v2/userinfo'
 
-const redirectUri = 'http://localhost:3000/api/auth/google/callback'
+const redirectUri = `http://${env.NEXT_PUBLIC_APP_URL}/api/auth/google/callback`
 
 app.get('/google', (c) => {
   const params = new URLSearchParams({
