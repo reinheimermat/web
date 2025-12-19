@@ -13,7 +13,9 @@ export const env = createEnv({
     JWT_SECRET: z.string().nonempty(),
     FACEBOOK_APP_SECRET: z.string().nonempty(),
     GOOGLE_CLIENT_ID: z.string().nonempty(),
-    GOOGLE_CLIENT_SECRET: z.string().nonempty()
+    GOOGLE_CLIENT_SECRET: z.string().nonempty(),
+    WHATSAPP_WEBHOOK_TOKEN: z.string().nonempty(),
+    WHATSAPP_WEBHOOK_URL: z.string().nonempty()
   },
 
   /**
@@ -24,7 +26,8 @@ export const env = createEnv({
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
     NEXT_PUBLIC_FACEBOOK_APP_ID: z.string().nonempty(),
-    NEXT_PUBLIC_APP_URL: z.url()
+    NEXT_PUBLIC_APP_URL: z.url(),
+    NEXT_PUBLIC_FACEBOOK_CONFIG_ID: z.string().nonempty()
   },
 
   /**
@@ -40,7 +43,10 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     NEXT_PUBLIC_FACEBOOK_APP_ID: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID,
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_FACEBOOK_CONFIG_ID: process.env.NEXT_PUBLIC_FACEBOOK_CONFIG_ID,
+    WHATSAPP_WEBHOOK_TOKEN: process.env.WHATSAPP_WEBHOOK_TOKEN,
+    WHATSAPP_WEBHOOK_URL: process.env.WHATSAPP_WEBHOOK_URL
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

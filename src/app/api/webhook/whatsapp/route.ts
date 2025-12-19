@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server'
+import { env } from '@/env'
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
-  const VERIFY_TOKEN = process.env.WEBHOOK_VERIFY_TOKEN
 
   const mode = searchParams.get('hub.mode')
   const token = searchParams.get('hub.verify_token')
   const challenge = searchParams.get('hub.challenge')
 
   // Se o modo e o token baterem, retornamos o challenge
-  if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+  if (mode === 'subscribe' && token === env.WHATSAPP_WEBHOOK_TOKEN) {
     console.log('WEBHOOK VERIFICADO COM SUCESSO! ✅')
     return new NextResponse(challenge, { status: 200 })
   }
