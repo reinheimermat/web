@@ -5,6 +5,7 @@ import { env } from '@/env'
 
 type AuthJwtPayload = {
   sub: string
+  barbershopId: string
 }
 
 export const authMiddleware = createMiddleware(async (c, next) => {
@@ -17,6 +18,7 @@ export const authMiddleware = createMiddleware(async (c, next) => {
   const payload = (await verify(token, env.JWT_SECRET)) as AuthJwtPayload
 
   c.set('userId', payload.sub)
+  c.set('barbershopId', payload.barbershopId)
 
   await next()
 })

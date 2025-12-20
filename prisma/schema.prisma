@@ -44,10 +44,13 @@ model Barbershop {
 }
 
 model Barber {
-  id               String  @id @default(cuid())
-  nick             String
-  active           Boolean @default(true)
-  googleCalendarId String?
+  id                 String  @id @default(cuid())
+  name               String
+  active             Boolean @default(true)
+  googleCalendarId   String?
+  googleEmail        String?
+  googleRefreshToken String?
+  phone              String
 
   userId String?
   user   User?   @relation(fields: [userId], references: [id])

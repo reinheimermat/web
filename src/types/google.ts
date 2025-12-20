@@ -4,24 +4,22 @@ export const googleAuthCallBackParams = z.object({
   code: z.string()
 })
 
+export const googleCalendarCallbackParams = googleAuthCallBackParams.extend({
+  state: z.cuid()
+})
+
+export const connectGoogleCalendarParams = z.object({
+  barberId: z.cuid()
+})
+
+export const googleUserSchema = z.object({
+  id: z.string().nonempty(),
+  name: z.string().nonempty(),
+  email: z.email().nonempty()
+})
+
+export type ConnectGoogleCalendarParams = z.infer<typeof connectGoogleCalendarParams>
+
+export type GoogleCalendarCallbackParams = z.infer<typeof googleCalendarCallbackParams>
+
 export type GoogleAuthCallBackParams = z.infer<typeof googleAuthCallBackParams>
-
-export interface TokenResponse {
-  access_token: string
-  expires_in: number
-  refresh_token?: string
-  scope: string
-  token_type: string
-  id_token: string
-}
-
-export interface UserInfo {
-  id: string
-  email: string
-  verified_email: boolean
-  name: string
-  given_name: string
-  family_name: string
-  picture: string
-  locale: string
-}

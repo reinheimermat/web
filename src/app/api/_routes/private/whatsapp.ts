@@ -3,8 +3,7 @@ import { Hono } from 'hono'
 import ky from 'ky'
 import { env } from '@/env'
 import { prisma } from '@/lib/prisma'
-import type { TokenResponse } from '@/types/google'
-import { embeddedSignupSchema } from '@/types/whatsapp'
+import { embeddedSignupSchema, type TokenResponse } from '@/types/whatsapp'
 
 const app = new Hono()
 
