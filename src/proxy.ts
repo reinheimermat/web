@@ -3,12 +3,12 @@ import { type MiddlewareConfig, type NextRequest, NextResponse } from 'next/serv
 const publicRoutes = [
   {
     path: '/login',
-    whenAuthenticated: 'redirect'
+    whenAuthenticated: 'redirect',
   },
   {
-    path: '/pricing',
-    whenAuthenticated: 'next'
-  }
+    path: '/terms',
+    whenAuthenticated: 'next',
+  },
 ] as const
 
 const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = '/login'
@@ -48,6 +48,6 @@ export function proxy(request: NextRequest) {
 export const config: MiddlewareConfig = {
   matcher: [
     // Exclude API routes, static files, image optimizations, and .png files
-    '/((?!api|_next/static|_next/image|.*\\.png$).*)'
-  ]
+    '/((?!api|_next/static|_next/image|.*\\.png$).*)',
+  ],
 }
